@@ -113,7 +113,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
             ArrayList<RecordForRecycler> arrayList = new ArrayList<>(arrayListRecords);
             ColorStateList colorStateList;
             if(sortDistFlag) {
-                arrayList.sort(RecordForRecycler.compareByDistReversed);
+                arrayList.sort(RecordForRecycler.compareByDistDESC);
                 colorStateList = new ColorStateList(
                         new int[][]
                                 {
@@ -128,7 +128,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
                 );
             }
             else {
-                arrayList.sort(RecordForRecycler.compareByDist);
+                arrayList.sort(RecordForRecycler.compareByDistASC);
                 colorStateList = new ColorStateList(
                         new int[][]
                                 {
@@ -161,7 +161,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
             ArrayList<RecordForRecycler> arrayList = new ArrayList<>(arrayListRecords);
             ColorStateList colorStateList;
             if(sortTimeFlag) {
-                arrayList.sort(RecordForRecycler.compareByTimeReversed);
+                arrayList.sort(RecordForRecycler.compareByTimeDESC);
                 colorStateList = new ColorStateList(
                         new int[][]
                                 {
@@ -176,7 +176,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
                 );
             }
             else {
-                arrayList.sort(RecordForRecycler.compareByTime);
+                arrayList.sort(RecordForRecycler.compareByTimeASC);
                 colorStateList = new ColorStateList(
                         new int[][]
                                 {
