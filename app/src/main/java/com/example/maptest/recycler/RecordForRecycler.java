@@ -16,50 +16,32 @@ public class RecordForRecycler {
         this.date = date;
     }
 
-    public static final Comparator<RecordForRecycler> compareByDist = (rfr1, rfr2) -> {
-        int index1 = rfr1.getDistance().indexOf(',');
-        int index2 = rfr2.getDistance().indexOf(',');
-        int km1 = Integer.parseInt(rfr1.getDistance().substring(0, index1)) * 1000;
-        int km2 = Integer.parseInt(rfr2.getDistance().substring(0, index2)) * 1000;
-        int m1 = Integer.parseInt(rfr1.getDistance().substring(index1 + 1, index1 + 3)) * 10;
-        int m2 = Integer.parseInt(rfr2.getDistance().substring(index2 + 1, index2 + 3)) * 10;
-        return km1 + m1 - km2 - m2;
+    public static final Comparator<RecordForRecycler> compareByDistASC = (record1, record2) -> {
+        return parseDist(record1) - parseDist(record2);
     };
 
-    public static final Comparator<RecordForRecycler> compareByDistReversed = (rfr1, rfr2) -> {
-        int index1 = rfr1.getDistance().indexOf(',');
-        int index2 = rfr2.getDistance().indexOf(',');
-        int km1 = Integer.parseInt(rfr1.getDistance().substring(0, index1)) * 1000;
-        int km2 = Integer.parseInt(rfr2.getDistance().substring(0, index2)) * 1000;
-        int m1 = Integer.parseInt(rfr1.getDistance().substring(index1 + 1, index1 + 3)) * 10;
-        int m2 = Integer.parseInt(rfr2.getDistance().substring(index2 + 1, index2 + 3)) * 10;
-        return km2 + m2 - km1 - m1;
+    public static final Comparator<RecordForRecycler> compareByDistDESC = compareByDistASC.reversed();
+
+    public static final Comparator<RecordForRecycler> compareByTimeASC = (record1, record2) -> {
+        return parseTime(record1) - parseTime(record2);
     };
 
-    public static final Comparator<RecordForRecycler> compareByTime = (rfr1, rfr2) -> {
-        int h1 = Integer.parseInt(rfr1.getTime().substring(0,2)) * 3600;
-        int h2 = Integer.parseInt(rfr2.getTime().substring(0,2)) * 3600;
-        int m1 = Integer.parseInt(rfr1.getTime().substring(3,5)) * 60;
-        int m2 = Integer.parseInt(rfr2.getTime().substring(3,5)) * 60;
-        int s1 = Integer.parseInt(rfr1.getTime().substring(6,8));
-        int s2 = Integer.parseInt(rfr2.getTime().substring(6,8));
-        int time1 = h1 + m1 + s1;
-        int time2 = h2 + m2 + s2;
-        return time1 - time2;
-    };
+    public static final Comparator<RecordForRecycler> compareByTimeDESC = compareByTimeASC.reversed();
 
-    public static final Comparator<RecordForRecycler> compareByTimeReversed = (rfr1, rfr2) -> {
-        int h1 = Integer.parseInt(rfr1.getTime().substring(0,2)) * 3600;
-        int h2 = Integer.parseInt(rfr2.getTime().substring(0,2)) * 3600;
-        int m1 = Integer.parseInt(rfr1.getTime().substring(3,5)) * 60;
-        int m2 = Integer.parseInt(rfr2.getTime().substring(3,5)) * 60;
-        int s1 = Integer.parseInt(rfr1.getTime().substring(6,8));
-        int s2 = Integer.parseInt(rfr2.getTime().substring(6,8));
-        int time1 = h1 + m1 + s1;
-        int time2 = h2 + m2 + s2;
-        return time2 - time1;
-    };
+    public static int parseDist(RecordForRecycler record) {
+        int index = record.getDistance().indexOf(',');
+        int km = Integer.parseInt(record.getDistance().substring(0, index)) * 1000;
+        int m = Integer.parseInt(record.getDistance().substring(index + 1, index + 3)) * 10;
+        return km + m;
+    }
 
+    public static int parseTime(RecordForRecycler record) {
+        int h = Integer.parseInt(record.getTime().substring(0,2)) * 3600;
+        int m = Integer.parseInt(record.getTime().substring(3,5)) * 60;
+        int s = Integer.parseInt(record.getTime().substring(6,8));
+        return h + m + s;
+    }
+        
     public int getId() {
         return id;
     }
