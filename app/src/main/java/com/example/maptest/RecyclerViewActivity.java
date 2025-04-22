@@ -108,6 +108,77 @@ public class RecyclerViewActivity extends AppCompatActivity {
 
     public void back(View view){startActivity(new Intent(RecyclerViewActivity.this, MainActivity.class));}
 
+    private enum SortType {
+        DISTANCE,
+        TIME,
+        DATE
+    }
+
+    public void onRadioButtonClicked(View view) {
+        String tag = (String) view.getTag();
+        SortType sortType = SortType.valueOf(tag);
+        sortRecords(view, sortType);
+    }
+
+    private void sortRecords(View view, SortType sortType) {
+        if(arrayListRecords.isEmpty()) return;
+
+        RadioButton radioButton = (RadioButton) view;
+
+        ArrayList<RecordForRecycler> arrayListRecordsCopy = new ArrayList<>(arrayListRecords);
+        boolean flag;
+        switch (sortType) {
+            case DISTANCE:
+                arrayListRecordsCopy.sort(sortDistFlag ? RecordForRecycler.compareByDistDESC : RecordForRecycler.compareByDistASC);
+                flag = sortDistFlag;
+                break;
+            
+            case TIME:
+                arrayListRecordsCopy.sort(sortTimeFlag ? RecordForRecycler.compareByTimeDESC : RecordForRecycler.compareByTimeASC);
+                flag = sortTimeFlag;
+                break;
+            
+            case DATE:
+                if (!sortDateFlag) Collections.reverse(arrayListRecordsCopy);
+                flag = sortDateFlag;
+                break;
+        }
+        radioButton.setButtonTintList(createColorStateList(flag));
+
+        setNewRecordAdapter(arrayListRecordsCopy);
+        resetFlags(sortType);
+    }
+
+    private ColorStateList createColorStateList(boolean flag) {
+        int color = flag ? getResources().getColor(R.color.biruze) : getResources().getColor(R.color.purple_200);
+        return new ColorStateList(
+            new int[][] {
+                new int[]{android.R.attr.state_checked},
+                new int[]{}
+            },
+            new int[] {
+                color,
+                Color.BLACK
+            }
+        );
+    }
+
+    private void setNewRecordAdapter(ArrayList<RecordForRecycler> arrayListRecordsCopy) {
+        RecordAdapter.OnRecordClickListener recordClickListener = (record, position) -> {
+            Intent intent = new Intent(RecyclerViewActivity.this, MapInformationActivity.class);
+            intent.putExtra("idOfRecord", arrayList.get(position).getId());
+            startActivity(intent);
+        };
+        RecordAdapter adapter = new RecordAdapter(this, arrayListRecordsCopy, recordClickListener);
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void resetFlags(SortType sortType) {
+        sortDistFlag = sortType == SortType.DISTANCE ? !sortDistFlag : true
+        sortTimeFlag = sortType == SortType.TIME ? !sortTimeFlag : true
+        sortDateFlag = sortType == SortType.DATE ? !sortDateFlag : true
+    }
+
     public void sortDist(View view){
         if(!arrayListRecords.isEmpty()){
             ArrayList<RecordForRecycler> arrayList = new ArrayList<>(arrayListRecords);
