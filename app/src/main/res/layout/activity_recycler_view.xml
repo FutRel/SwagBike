@@ -83,21 +83,24 @@
                     android:layout_height="24dp"
                     android:id="@+id/rb1"
                     android:text="Дистанции"
-                    android:onClick="sortDist"
+                    android:onClick="onRadioButtonClicked"
+                    android:tag="DISTANCE"
             />
             <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="24dp"
                     android:id="@+id/rb2"
                     android:text="Времени"
-                    android:onClick="sortTime"
+                    android:onClick="onRadioButtonClicked"
+                    android:tag="TIME"
             />
             <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="24dp"
                     android:id="@+id/rb3"
                     android:text="Дате"
-                    android:onClick="sortDate"
+                    android:onClick="onRadioButtonClicked"
+                    android:tag="DATE"
             />
         </RadioGroup>
 
